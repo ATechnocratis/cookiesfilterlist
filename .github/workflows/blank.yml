@@ -2,12 +2,15 @@ name: Update Cookie Filter List
 
 on:
   schedule:
-    - cron: '0 4 * * *'   # Daily at 4 AM UTC
+    - cron: '0 4 * * *'
   workflow_dispatch:
+
+permissions:
+  contents: write
 
 jobs:
   update:
-    runs-on: ubuntu-24.04   # Use newer runner
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -15,13 +18,13 @@ jobs:
       - name: Download latest rules.js
         run: curl -o rules.js https://raw.githubusercontent.com/OhMyGuus/I-Still-Dont-Care-About-Cookies/master/src/data/rules.js
 
-      - name: Convert to uBlock list
+      - name: Convert to uBlock list (Advanced)
         run: |
           python3 -c '
           import re
           from datetime import datetime
-          with open("rules.js", encoding="utf-8") as f:
-              content = f.read()
+
+          content = open("rules.js", encoding="utf-8").read()
 
           # Extract commons
           commons = {}
@@ -30,31 +33,45 @@ jobs:
               for m in re.finditer(r"(\d+):\s*[\"''](.*?)[\"'']", cm.group(1), re.DOTALL):
                   commons[m.group(1)] = m.group(2).strip()
 
-          # Extract rules and write filter list
+          # Extract rules
           rules_match = re.search(r"const rules = \{(.+?)\n\};", content, re.DOTALL)
           if rules_match:
               rules_str = rules_match.group(1)
               with open("i-still-dont-care-ublock.txt", "w", encoding="utf-8") as f:
                   f.write(f"! I-Still-Dont-Care-About-Cookies → uBlock Origin\n")
                   f.write(f"! Updated: {datetime.now().strftime("%Y-%m-%d %H:%M UTC")}\n")
-                  f.write("! https://github.com/OhMyGuus/I-Still-Dont-Care-About-Cookies\n\n")
-                  f.write("##.cookie,###cookie,##.gdpr,###gdpr,##.consent,###consent\n\n")
+                  f.write("! Source: https://github.com/OhMyGuus/I-Still-Dont-Care-About-Cookies\n\n")
+
+                  # Generic rules
+                  f.write("##.cookie,###cookie,##.cookies,###cookies,##.gdpr,###gdpr,##.consent,###consent\n")
+                  f.write("##.modal-backdrop,##.veil,##.overlay\n\n")
 
                   for m in re.finditer(r"\"([^\"]+)\":\s*\{(.*?)\}(?:,|\s*(?=\"))", rules_str, re.DOTALL):
                       domain = m.group(1)
                       body = m.group(2)
-                      # CSS selectors
+
+                      # CSS selectors (s + c)
+                      selectors = []
                       for s in re.findall(r"s:\s*[\"''](.*?)[\"'']", body, re.DOTALL):
                           clean = re.sub(r"\{[^}]+\}", "", s).strip()
                           if clean and len(clean) > 5:
-                              f.write(f"{domain}##{clean}\n")
+                              selectors.append(clean)
+                      for c in re.findall(r"c:\s*(\d+)", body):
+                          if c in commons:
+                              selectors.append(commons[c])
+
+                      # Write selectors
+                      for sel in selectors:
+                          f.write(f"{domain}##{sel}\n")
+
                       # JS handlers
                       for j in re.findall(r"j:\s*[\"'']?(\d+)", body):
-                          f.write(f"{domain}##+js(click-handler)\n")
-          print("✅ Conversion completed successfully")
+                          handler = {"5": "click-handler", "8": "google-handler", "6": "cookie-handler"}.get(j, "click-handler")
+                          f.write(f"{domain}##+js({handler})\n")
+          print("✅ Advanced conversion completed")
           '
 
-      - name: Commit & Push changes
+      - name: Commit & Push
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
@@ -62,6 +79,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Auto-update: filter list $(date -u +"%Y-%m-%d")"
+            git commit -m "Auto-update filter list $(date -u +"%Y-%m-%d")"
             git push
           fi

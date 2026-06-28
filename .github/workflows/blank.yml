@@ -2,17 +2,15 @@ name: Update Cookie Filter List
 
 on:
   schedule:
-    - cron: '0 4 * * *'
+    - cron: '0 4 * * *'   # Daily at 4 AM UTC
   workflow_dispatch:
 
 jobs:
   update:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04   # Use newer runner
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Download latest rules.js
         run: curl -o rules.js https://raw.githubusercontent.com/OhMyGuus/I-Still-Dont-Care-About-Cookies/master/src/data/rules.js
@@ -22,39 +20,48 @@ jobs:
           python3 -c '
           import re
           from datetime import datetime
-          content = open("rules.js", encoding="utf-8").read()
+          with open("rules.js", encoding="utf-8") as f:
+              content = f.read()
 
+          # Extract commons
           commons = {}
-          for m in re.finditer(r"(\d+):\s*["'"'"'"](.*?)["'"'"'"]", re.search(r"const commons = \{(.+?)\n\};", content, re.DOTALL).group(1), re.DOTALL):
-              commons[m.group(1)] = m.group(2).strip()
+          cm = re.search(r"const commons = \{(.+?)\n\};", content, re.DOTALL)
+          if cm:
+              for m in re.finditer(r"(\d+):\s*[\"''](.*?)[\"'']", cm.group(1), re.DOTALL):
+                  commons[m.group(1)] = m.group(2).strip()
 
-          rules_str = re.search(r"const rules = \{(.+?)\n\};", content, re.DOTALL).group(1)
+          # Extract rules and write filter list
+          rules_match = re.search(r"const rules = \{(.+?)\n\};", content, re.DOTALL)
+          if rules_match:
+              rules_str = rules_match.group(1)
+              with open("i-still-dont-care-ublock.txt", "w", encoding="utf-8") as f:
+                  f.write(f"! I-Still-Dont-Care-About-Cookies → uBlock Origin\n")
+                  f.write(f"! Updated: {datetime.now().strftime("%Y-%m-%d %H:%M UTC")}\n")
+                  f.write("! https://github.com/OhMyGuus/I-Still-Dont-Care-About-Cookies\n\n")
+                  f.write("##.cookie,###cookie,##.gdpr,###gdpr,##.consent,###consent\n\n")
 
-          with open("i-still-dont-care-ublock.txt", "w", encoding="utf-8") as f:
-              f.write(f"! I-Still-Dont-Care-About-Cookies → uBlock Origin\n")
-              f.write(f"! Updated: {datetime.now().strftime("%Y-%m-%d %H:%M UTC")}\n")
-              f.write("! https://github.com/OhMyGuus/I-Still-Dont-Care-About-Cookies\n\n")
-              f.write("##.cookie,###cookie,##.gdpr,###gdpr\n\n")
-
-              for m in re.finditer(r"\"([^\"]+)\":\s*\{(.*?)\}(?:,|\s*(?=\"))", rules_str, re.DOTALL):
-                  domain = m.group(1)
-                  body = m.group(2)
-                  for s in re.findall(r"s:\s*["'"'"'"](.*?)["'"'"'"]", body, re.DOTALL):
-                      clean = re.sub(r"\{[^}]+\}", "", s).strip()
-                      if clean and len(clean) > 5:
-                          f.write(f"{domain}##{clean}\n")
-                  for j in re.findall(r"j:\s*["'"'"'"']?(\d+)", body):
-                      f.write(f"{domain}##+js(click-handler)\n")
+                  for m in re.finditer(r"\"([^\"]+)\":\s*\{(.*?)\}(?:,|\s*(?=\"))", rules_str, re.DOTALL):
+                      domain = m.group(1)
+                      body = m.group(2)
+                      # CSS selectors
+                      for s in re.findall(r"s:\s*[\"''](.*?)[\"'']", body, re.DOTALL):
+                          clean = re.sub(r"\{[^}]+\}", "", s).strip()
+                          if clean and len(clean) > 5:
+                              f.write(f"{domain}##{clean}\n")
+                      # JS handlers
+                      for j in re.findall(r"j:\s*[\"'']?(\d+)", body):
+                          f.write(f"{domain}##+js(click-handler)\n")
+          print("✅ Conversion completed successfully")
           '
 
-      - name: Commit & Push
+      - name: Commit & Push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add i-still-dont-care-ublock.txt
-          if ! git diff --staged --quiet; then
-            git commit -m "Auto-update filter list $(date -u +"%Y-%m-%d")"
-            git push
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
           else
-            echo "No changes"
+            git commit -m "Auto-update: filter list $(date -u +"%Y-%m-%d")"
+            git push
           fi

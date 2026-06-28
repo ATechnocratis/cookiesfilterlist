@@ -1,4 +1,4 @@
-name: Update Cookie Filter List
+name: Update Cookie Filter
 
 on:
   schedule:
@@ -12,13 +12,12 @@ jobs:
   update:
     runs-on: ubuntu-24.04
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
       - name: Download latest rules.js
         run: curl -o rules.js https://raw.githubusercontent.com/OhMyGuus/I-Still-Dont-Care-About-Cookies/master/src/data/rules.js
 
-      - name: Convert to uBlock list
+      - name: Convert using advanced script
         run: python3 convert.py
 
       - name: Commit & Push
@@ -27,7 +26,7 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add i-still-dont-care-ublock.txt
           if git diff --staged --quiet; then
-            echo "No changes to commit"
+            echo "No changes"
           else
             git commit -m "Auto-update filter list $(date -u +"%Y-%m-%d")"
             git push

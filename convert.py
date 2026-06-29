@@ -33,9 +33,41 @@ for match in re.finditer(pattern, rules_str, re.DOTALL):
     selectors = []
     js_handlers = []
     
-    s_matches = re.findall(r's:\s*["\'](.*?)(?:\'\,$|"$|",|\n)', body, re.DOTALL)
+    multipleLines = re.findall(r's:\s*["\'](.*?)\+\n', body, re.DOTALL)
+    if(len(multipleLines)>0):
+        allTogether = re.findall(r's:\s*["\'](.*?)(?:\'\,$|"$|",)', body, re.DOTALL)
+        if (len(allTogether)>0):
+            s_matches = re.sub("\s*\+\s*\n\s*", "" ,allTogether[0])
+        else:
+            s_matches = []
+    else:
+        s_matches = re.findall(r's:\s*["\'](.*?)(?:\'\,$|"$|",|\n)', body, re.DOTALL)
+    delimiter = ","
+    delimiter2 = "@"
     for s in s_matches:
-        splits = re.split('@|,', s.replace("}", "}@"))
+        splits = []
+        current = []
+        depth = 0
+        replaced =  s.replace("}", "}@@")
+        prevChar = ""
+        for char in replaced:
+            if char == '(':
+                depth += 1
+                current.append(char)
+            elif char == ')':
+                depth -= 1
+                current.append(char)
+            elif char == delimiter and depth == 0:
+                splits.append("".join(current).strip())
+                current = []
+            elif char == delimiter2 and prevChar == delimiter2:
+                splits.append("".join(current[:-1]).strip())
+                current = []
+            else:
+                current.append(char)
+            prevChar = char
+        splits.append("".join(current).strip())
+
         for ss in splits:
             if ss.strip():
                 selectors.append(ss.strip().removesuffix("html"))

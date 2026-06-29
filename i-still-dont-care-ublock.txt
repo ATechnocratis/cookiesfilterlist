@@ -1,7 +1,7 @@
 ! =============================================
 ! I-Still-Dont-Care-About-Cookies → uBlock Origin
 ! Full Advanced Conversion
-! Generated: 2026-06-29 01:17
+! Generated: 2026-06-29 01:32
 ! =============================================
 
 ! === Generic Rules ===
@@ -2039,7 +2039,6 @@ bayern.de###cookie
 bayern.de###matomoCookieNotification
 bayern.de##div[id^="cbanner"]
 bayern.de###message-container.message-container
-bayern.de##j: "5
 bayernlb.de##.lg-backdrop
 bayernportal.de##+js(click-handler)
 baywa-re.it##.gg_cookie
@@ -2396,6 +2395,12 @@ binary.com###dialog_notification
 binck.fr###cc_container
 binck.fr##.cc_container
 bing.com##+js(click-handler)
+bing.com###bnp_cookie_banner[aria-modal="false"]
+bing.com###bnp_ttc_div
+bing.com###thp_notf_div
+bing.com##.b_hide.bnp_ttc
+bing.com###t_termsInfo
+bing.com###hp_cellCenter
 bingen-ruedesheimer.de##.pcblocker
 bingen-ruedesheimer.de##.pc_privacy-badge
 bingen-ruedesheimer.de##body
@@ -2550,7 +2555,6 @@ blog.bankinter.com##.cookies
 blog.bytebytego.com##[class*="cookieBanner"]
 blog.bytebytego.com##[class*="cookie-banner"]
 blog.flota.es##div[c_data="c_cookie_main"]
-blog.flota.es##c: "85
 blog.mega-energie.fr###cookiesModal
 blog.thedigitalgroup.com###modalCookies
 blog200porcento.com###consent_200
@@ -3557,11 +3561,6 @@ chat.mistral.ai##body
 chateauversailles.fr##.bloc-notifications
 chateauxhotels.com###notificationBar
 chatgpt.com###thread-bottom-container aside.flex.w-full.items-start.gap-4.rounded-3xl.border.py-4.ps-5.pe-3.text-sm.shadow-xxs.border-token-border-default.bg-token-main-surface-primary.text-token-text-primary.dark\\:bg-token-main-surface-secondary" +
-      ':has(a[href*="openai.com/terms"]):has(a[href*="openai.com/privacy"]):has(button[data-testid="close-button"])
-chatgpt.com##' +
-      "div.z-10.w-\\[100vw\\].max-w-\\[100vw\\].overflow-hidden:has(a[href='https://openai.com/policies/cookie-policy/'])
-chatgpt.com##" +
-      "[data-testid='modal-cookie-consent-banner-mobile']
 chathispano.com##.alert-dismissible
 chathispano.com##.alert-dismissable
 chathispano.com##.alert--dismissable
@@ -3707,6 +3706,7 @@ cilgro.nl##+js(click-handler)
 cimetieres-de-france.fr###js-header-cookie
 cimoc.com###styleUp
 cimri.com##+js(cookie-handler)
+cinch.co.uk##div[class^="cookie-consent_overlay__"]
 cinch.co.uk##body
 cindicator.com##+js(cookie-handler)
 cinemacity.sk##.policy
@@ -6498,7 +6498,6 @@ facebook.com##div[data-testid="cookie-policy-dialog"]
 facebook.com##div[data-testid="cookie-policy-manage-dialog"]
 facebook.com##.uiLayer[data-testid="cookie-policy-banner"]
 facebook.com##.hasCookieBanner > div
-facebook.com##j: "5
 facebookafmelden.nl###cookiespanel
 facebookcareers.com##+js(click-handler)
 fachinfo.de##.row.banner
@@ -10539,6 +10538,7 @@ kureha.co.jp##.cookie_block
 kurfuerstenschaenke-dresden.de###POPUPS_ROOT
 kurier.at##+js(click-handler)
 kurse.eatsmarter.de##+js(click-handler)
+kurse.eatsmarter.de##button[class*="consentFloatBtn"]
 kurzurlaub.at##+js(click-handler)
 kurzurlaub.de##+js(click-handler)
 kvalster.se##noindex #y
@@ -10775,6 +10775,7 @@ lass-tanzen.de##+js(click-handler)
 lasseron-associes.com###rgpd-background
 lastdodo.fr##[data-controller=cookie-bar]
 lastmile.lt##+js(click-handler)
+lastmile.lt##button[aria-label="Slapukų nustatymai"]
 lastminute.co.il##.messages-container
 lastminutetravel.com##.weUseCookies
 lasvinotecas.es##.st_notification_wrap
@@ -12358,6 +12359,7 @@ migliori-siti-di-incontri.it###disclaimer
 migliori-siti-di-incontri.it##.disclaimer
 migros-shop.de##+js(click-handler)
 migros.ch##+js(click-handler)
+migros.ch##[data-js-module*="cookie-banner"]
 migros.com.tr##fe-product-cookie-indicator
 migusto.migros.ch##[data-js-module*="cookie-banner"]
 mijn-artikel.nl##.ui-widget
@@ -13681,7 +13683,6 @@ notify.events##+js(cookie-handler)
 notion.site##+js(click-handler)
 notion.so##+js(click-handler)
 notion.so###__next > section[class*="partial"]
-notion.so##j: "5
 notizieinunclick.com##body > .elementor-popup-modal
 notizieinunclick.com##.dialog-prevent-scroll
 noto.sr.it###policy_id
@@ -13826,6 +13827,12 @@ nyman.media##.alert-dismissible
 nypost.com##.nyp-sitewide-notice
 nytco.com##.a-cookie
 nytimes.com##+js(click-handler)
+nytimes.com##.free-form-content > .banner__container
+nytimes.com##.CookieBanner > .banner__container
+nytimes.com###alertBannerMount
+nytimes.com##.gdpr.expanded-dock + div
+nytimes.com##.CookieBanner ~ .banner__container
+nytimes.com##span[data-testid="onsite-messaging-unit-gdprDock"]
 nytimes.com##body
 nyulcipobolt.hu##.cookie-container
 nyulcipobolt.hu##.cookie-button
@@ -13870,6 +13877,7 @@ ocs.fr##+js(click-handler)
 octapharma.com##+js(click-handler)
 octoparse.com###snackbar
 octopusenergy.es##+js(click-handler)
+octopusenergy.es##div[data-testid="iconCookies"]
 octopusenergy.it###content ~ div
 octopusev.com##footer ~ div
 octotree.io##html.noscroll
@@ -14812,6 +14820,8 @@ pfeiffer-vacuum.com###pfCookieNotice
 pff.se##+js(click-handler)
 pflanze2000.de##+js(click-handler)
 pflanzenkatalog.ley-baumschule.de##.cookiemessagebackground
+pfleiderer.com##.cc--banner
+pfleiderer.com##div[data-locks="cookieconsent"]
 pfleiderer.com##body
 pgd.pl##+js(click-handler)
 phalanxgames.pl##.config-messages
@@ -16141,6 +16151,7 @@ refoweb.nl##+js(click-handler)
 refresher.cz##.gdpr-panel
 refresher.sk##.gdpr-panel
 refunder.pl##+js(click-handler)
+refunder.se##div[data-modal="cookie-consent-modal"]
 refunder.se##body
 refurbed.dk##+js(click-handler)
 refurbed.fr##+js(click-handler)
@@ -16669,7 +16680,6 @@ rueducommerce.fr##+js(click-handler)
 ruegenmagic.de###confirm_cookies
 ruegenwalder.de##+js(click-handler)
 ruegenwalder.de##body > [id*="csdialog"]
-ruegenwalder.de##j: "5
 rugbycoachweekly.net##+js(click-handler)
 rugbyworldcup.com##+js(click-handler)
 ruhrbarone.de###cookie
@@ -18486,6 +18496,7 @@ sumcumo.com##.cookie
 sumcumo.com###cookies
 sumcumo.com##.cookies
 sumsub.com##+js(click-handler)
+sumsub.com##button[class*="CookieButton"]
 suncalc.org###cc--main
 suncorp.com.au##.sg-Box--neutral.one-pixel-margin-bottom
 sundair.com##+js(click-handler)
@@ -19200,10 +19211,8 @@ thegoodnessproject.co.uk###cookies_enabled
 thegoodocs.com##.cookie__form
 theguardian.com##+js(click-handler)
 theguardian.com##div[id^="sp_message_container_"]
-theguardian.com##j: "5
 theguardian.com.##+js(click-handler)
 theguardian.com.##div[id^="sp_message_container_"]
-theguardian.com.##j: "5
 thehamradio.website##body > p
 theheinekencompany.com##+js(click-handler)
 theinformation.com###gdpr-modal-container

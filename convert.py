@@ -31,7 +31,6 @@ for match in re.finditer(pattern, rules_str, re.DOTALL):
     body = match.group(2).strip()
     
     selectors = []
-    js_handlers = []
     
     multipleLines = re.findall(r's:\s*["\'](.*?)\+\n', body, re.DOTALL)
     if(len(multipleLines)>0):
@@ -77,14 +76,10 @@ for match in re.finditer(pattern, rules_str, re.DOTALL):
         if c in commons:
             splits = re.split('@|,', commons[c].replace("}", "}@"))
             for ss in splits:
-                selectors.append(ss)
-    
-    j_matches = re.findall(r'j:\s*["\']?([\w\d]+)', body)
-    for j in j_matches:
-        js_handlers.append(j.strip())
-    
-    if selectors or js_handlers:
-        domain_rules[domain] = {"selectors": selectors, "js": js_handlers}
+                selectors.append(ss)   
+  
+    if selectors:
+        domain_rules[domain] = {"selectors": selectors}
 
 
 # ===================== GENERATE UBLOCK LIST =====================
@@ -115,10 +110,6 @@ with open(output_file, "w", encoding="utf-8") as f:
     f.write("! === Site Specific Rules ===\n")
 
     for domain, data in sorted(domain_rules.items()):
-        for js in data["js"]:
-            handler_map = {"5": "click-handler", "8": "google-handler", "6": "cookie-handler"}
-            handler = handler_map.get(js, f"click-handler")
-            f.write(f"{domain}##+js({handler})\n")
 
         for sel in data["selectors"]:
             clean = sel.strip()

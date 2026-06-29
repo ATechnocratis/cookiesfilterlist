@@ -93,6 +93,7 @@ with open(output_file, "w", encoding="utf-8") as f:
     f.write("! =============================================\n")
     f.write("! I-Still-Dont-Care-About-Cookies → uBlock Origin\n")
     f.write("! Full Advanced Conversion\n")
+    f.write("! Expires: 5 days\n")
     f.write(f"! Generated: {datetime.now().strftime('%Y-%m-%d %H:%M')}\n")
     f.write("! =============================================\n\n")
 

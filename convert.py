@@ -33,7 +33,7 @@ for match in re.finditer(pattern, rules_str, re.DOTALL):
     selectors = []
     js_handlers = []
     
-    s_matches = re.findall(r's:\s*["\'](.*?)(?:\'\,$|"$|",)', body, re.DOTALL)
+    s_matches = re.findall(r's:\s*["\'](.*?)(?:\'\,$|"$|",|\n)', body, re.DOTALL)
     for s in s_matches:
         splits = re.split('@|,', s.replace("}", "}@"))
         for ss in splits:

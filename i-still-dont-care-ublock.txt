@@ -2,7 +2,7 @@
 ! I-Still-Dont-Care-About-Cookies → uBlock Origin
 ! Full Advanced Conversion
 ! Expires: 5 days
-! Generated: 2026-07-18 06:09
+! Generated: 2026-07-19 06:35
 ! =============================================
 
 ! === Generic Rules ===

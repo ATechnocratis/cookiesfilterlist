@@ -23,7 +23,7 @@ jobs:
           python-version: "3.12"
 
       - name: Generate the filter list
-        run: python generate.py
+        run: python striptrackersgen.py
 
       - name: Commit and push if changed
         run: |

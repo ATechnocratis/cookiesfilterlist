@@ -1,5 +1,5 @@
 ! Title: Firefox StripOnShare to filter list
-! Last modified: 2026-11-04 11:23 UTC
+! Last modified: 2026-11-09 11:02 UTC
 ! Expires: 10 days
 ! Homepage: https://github.com/mozilla-firefox/firefox/tree/main/toolkit/components/antitracking/StripOnShareLists
 ! Description: Auto-generated from Firefox's Copy Clean Link / Strip-on-Share lists
@@ -248,9 +248,6 @@
 ||ca.carousell.com^$removeparam=t-referrer_browse_type
 ||ca.carousell.com^$removeparam=t-source
 ||ca.carousell.com^$removeparam=tap_index
-||ca.linkedin.com^$removeparam=refId
-||ca.linkedin.com^$removeparam=trackingId
-||ca.linkedin.com^$removeparam=trk
 ||consent.google.de^$removeparam=aqs
 ||consent.google.de^$removeparam=bih
 ||consent.google.de^$removeparam=biw
@@ -328,6 +325,15 @@
 ||edition.cnn.com^$removeparam=ref
 ||github.com^$removeparam=email_source
 ||github.com^$removeparam=email_token
+||linkedin.com^$removeparam=alternateChannel
+||linkedin.com^$removeparam=eBP
+||linkedin.com^$removeparam=isJobSearch
+||linkedin.com^$removeparam=lipi
+||linkedin.com^$removeparam=origin
+||linkedin.com^$removeparam=rcm
+||linkedin.com^$removeparam=refId
+||linkedin.com^$removeparam=trackingId
+||linkedin.com^$removeparam=trk
 ||live.bilibili.com^$removeparam=broadcast_type
 ||live.bilibili.com^$removeparam=is_room_feed
 ||live.bilibili.com^$removeparam=live_from
@@ -358,9 +364,6 @@
 ||pages.lazada.co.id^$removeparam=scm
 ||pages.lazada.co.id^$removeparam=spm
 ||pages.lazada.co.id^$removeparam=trafficFrom
-||ro.linkedin.com^$removeparam=refId
-||ro.linkedin.com^$removeparam=trackingId
-||ro.linkedin.com^$removeparam=trk
 ||robotime.aliexpress.com^$removeparam=aff_fcid
 ||robotime.aliexpress.com^$removeparam=aff_fsk
 ||robotime.aliexpress.com^$removeparam=aff_platform
@@ -8139,7 +8142,6 @@
 ||www.lazada.vn^$removeparam=scm
 ||www.lazada.vn^$removeparam=spm
 ||www.lazada.vn^$removeparam=trafficFrom
-||www.linkedin.com^$removeparam=rcm
 ||www.meetup.com^$removeparam=eventOrigin
 ||www.meetup.com^$removeparam=recId
 ||www.meetup.com^$removeparam=recSource

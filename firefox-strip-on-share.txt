@@ -1,5 +1,5 @@
 ! Title: Firefox StripOnShare to filter list
-! Last modified: 2026-11-16 10:45 UTC
+! Last modified: 2026-11-23 11:57 UTC
 ! Expires: 10 days
 ! Homepage: https://github.com/mozilla-firefox/firefox/tree/main/toolkit/components/antitracking/StripOnShareLists
 ! Description: Auto-generated from Firefox's Copy Clean Link / Strip-on-Share lists
@@ -17,6 +17,8 @@
 *$removeparam=_hsmi
 *$removeparam=_ke
 *$removeparam=_kx
+*$removeparam=_su_rec
+*$removeparam=_su_rec_id
 *$removeparam=adgroupid
 *$removeparam=adid
 *$removeparam=adtype
